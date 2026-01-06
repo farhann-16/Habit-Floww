@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  firebase_uid String   @unique
+  name         String?
+  email        String?  @unique
+  created_at   DateTime @default(now())
+
+  habits    Habit[]
+  habitLogs HabitLog[]
+  goals     Goal[]
+  goalLogs  GoalLog[]
+
+  @@map("users")
+}
+
+model Habit {
+  id             String   @id @default(uuid()) @db.Uuid
+  user_id        String   @db.Uuid
+  name           String
+  category       String?
+  color          String?
+  monthly_target Int?
+  created_at     DateTime @default(now())
+
+  user      User       @relation(fields: [user_id], references: [id])
+  habitLogs HabitLog[]
+
+  @@map("habits")
+}
+
+model HabitLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  habit_id   String   @db.Uuid
+  date       DateTime @db.Date
+  completed  Boolean
+  note       String?
+  updated_at DateTime @default(now()) @updatedAt
+
+  user  User  @relation(fields: [user_id], references: [id])
+  habit Habit @relation(fields: [habit_id], references: [id])
+
+  @@unique([habit_id, date])
+  @@map("habit_logs")
+}
+
+model Goal {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  name       String
+  target     Float
+  current    Float    @default(0)
+  unit       String?  @default("")
+  type       String   @default("CUMULATIVE") // CUMULATIVE or ABSOLUTE
+  color      String?
+  created_at DateTime @default(now())
+
+  user     User      @relation(fields: [user_id], references: [id])
+  goalLogs GoalLog[]
+
+  @@map("goals")
+}
+
+model GoalLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  goal_id    String   @db.Uuid
+  value      Float
+  date       DateTime @db.Date
+  note       String?
+  updated_at DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [user_id], references: [id])
+  goal Goal @relation(fields: [goal_id], references: [id])
+
+  @@map("goal_logs")
+}
