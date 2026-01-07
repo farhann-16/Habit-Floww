@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -34,7 +34,16 @@ const navItems = [
 export const AppLayout = ({ children, onAddHabit }: AppLayoutProps) => {
   const { sidebarOpen, setSidebarOpen, toggleSidebar } = useAppStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -258,11 +267,13 @@ export const AppLayout = ({ children, onAddHabit }: AppLayoutProps) => {
       {/* Main Content */}
       <motion.main
         initial={false}
-        animate={{ paddingLeft: sidebarOpen ? 256 : 80 }}
+        animate={{
+          paddingLeft: isDesktop ? (sidebarOpen ? 256 : 80) : 0
+        }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className="min-h-screen flex flex-col pt-16 lg:pt-0"
       >
-        <div className="flex-1 p-4 lg:p-8 pb-20 lg:pb-8">{children}</div>
+        <div className="flex-1 p-4 lg:p-8 pb-24 lg:pb-8">{children}</div>
         <Footer />
       </motion.main>
 

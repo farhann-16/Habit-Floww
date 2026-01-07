@@ -56,24 +56,26 @@ export const SpreadsheetTracker = ({
   return (
     <Card className="overflow-hidden">
       {/* Header with week navigation */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border-b border-border gap-3">
         <h2 className="text-lg font-heading font-semibold">Daily Tracker</h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between w-full sm:w-auto gap-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setWeekOffset((prev) => prev - 1)}
+            className="h-8 w-8"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <span className="text-sm font-medium min-w-[140px] text-center">
-            {format(weekStart, 'MMM d')} - {format(addDays(weekStart, 6), 'MMM d, yyyy')}
+          <span className="text-sm font-medium min-w-[120px] text-center">
+            {format(weekStart, 'MMM d')} - {format(addDays(weekStart, 6), 'MMM d')}
           </span>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setWeekOffset((prev) => prev + 1)}
             disabled={weekOffset >= 0}
+            className="h-8 w-8"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -81,30 +83,30 @@ export const SpreadsheetTracker = ({
       </div>
 
       {/* Spreadsheet */}
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[700px]">
+      <div className="overflow-x-auto scrollbar-hide">
+        <table className="w-full min-w-[600px] border-collapse">
           <thead>
             <tr className="bg-muted/50">
-              <th className="sticky left-0 z-10 bg-muted/50 px-4 py-3 text-left font-heading font-semibold text-sm min-w-[200px]">
+              <th className="sticky left-0 z-20 bg-muted/60 backdrop-blur-sm px-4 py-3 text-left font-heading font-semibold text-sm min-w-[150px] sm:min-w-[200px]">
                 Habit
               </th>
               {weekDates.map((date) => (
                 <th
                   key={date.toISOString()}
                   className={cn(
-                    'px-3 py-3 text-center font-medium text-sm min-w-[80px]',
+                    'px-2 py-3 text-center font-medium text-sm min-w-[60px]',
                     isToday(date) && 'bg-ocean/10'
                   )}
                 >
                   <div className="flex flex-col items-center">
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
                       {format(date, 'EEE')}
                     </span>
                     <span
                       className={cn(
-                        'text-base mt-0.5',
+                        'text-sm font-bold mt-0.5',
                         isToday(date)
-                          ? 'text-ocean font-bold'
+                          ? 'text-ocean'
                           : 'text-foreground'
                       )}
                     >
@@ -113,7 +115,7 @@ export const SpreadsheetTracker = ({
                   </div>
                 </th>
               ))}
-              <th className="px-4 py-3 text-center font-heading font-semibold text-sm min-w-[80px]">
+              <th className="px-4 py-3 text-center font-heading font-semibold text-sm min-w-[70px]">
                 Rate
               </th>
             </tr>
@@ -138,16 +140,16 @@ export const SpreadsheetTracker = ({
                     transition={{ delay: index * 0.05 }}
                     className="border-b border-border/50 group hover:bg-muted/30 transition-colors"
                   >
-                    <td className="sticky left-0 z-10 bg-card hover:bg-muted/30 px-4 py-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex flex-col gap-1 overflow-hidden">
-                          <span className="font-medium text-foreground truncate">
+                    <td className="sticky left-0 z-20 bg-card/90 backdrop-blur-sm px-4 py-3">
+                      <div className="flex items-center justify-between gap-2 overflow-hidden">
+                        <div className="flex flex-col min-w-0 overflow-hidden">
+                          <span className="font-medium text-foreground truncate text-sm sm:text-base">
                             {habit.name}
                           </span>
-                          <div className="flex items-center gap-2">
-                            <CategoryBadge category={habit.category} />
+                          <div className="flex items-center gap-1 sm:gap-2">
+                            <CategoryBadge category={habit.category} size="xs" />
                             {habit.monthlyTarget && (
-                              <span className="text-xs text-muted-foreground whitespace-nowrap">
+                              <span className="text-[10px] text-muted-foreground whitespace-nowrap hidden sm:inline">
                                 Goal: {habit.monthlyTarget}/mo
                               </span>
                             )}
@@ -157,9 +159,9 @@ export const SpreadsheetTracker = ({
                           variant="ghost"
                           size="icon"
                           onClick={() => onDeleteHabit(habit.id)}
-                          className="text-muted-foreground hover:text-destructive transition-opacity"
+                          className="h-7 w-7 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </Button>
                       </div>
                     </td>
@@ -169,7 +171,7 @@ export const SpreadsheetTracker = ({
                         <td
                           key={date.toISOString()}
                           className={cn(
-                            'px-3 py-3 text-center',
+                            'px-2 py-3 text-center',
                             isToday(date) && 'bg-ocean/5'
                           )}
                         >
@@ -179,6 +181,7 @@ export const SpreadsheetTracker = ({
                               onChange={() => handleToggle(habit.id, date)}
                               ariaLabel={`Mark ${habit.name} ${log?.completed ? 'incomplete' : 'complete'
                                 } for ${format(date, 'MMMM d')}`}
+                              className="w-5 h-5 sm:w-6 sm:h-6"
                             />
                           </div>
                         </td>
@@ -187,7 +190,7 @@ export const SpreadsheetTracker = ({
                     <td className="px-4 py-3 text-center">
                       <span
                         className={cn(
-                          'font-mono font-medium',
+                          'font-mono font-bold text-xs sm:text-sm',
                           rate >= 70
                             ? 'text-primary'
                             : rate >= 40
@@ -206,7 +209,7 @@ export const SpreadsheetTracker = ({
           {/* Footer for Daily Progress */}
           <tfoot>
             <tr className="border-t-2 border-border bg-muted/20">
-              <td className="sticky left-0 z-10 bg-muted/20 px-4 py-3 font-heading font-semibold text-sm">
+              <td className="sticky left-0 z-20 bg-muted/20 backdrop-blur-sm px-4 py-3 font-heading font-semibold text-xs sm:text-sm">
                 Daily Progress
               </td>
               {weekDates.map((date) => {
@@ -219,13 +222,13 @@ export const SpreadsheetTracker = ({
                   <td
                     key={date.toISOString()}
                     className={cn(
-                      'px-3 py-3 text-center',
+                      'px-2 py-3 text-center',
                       isToday(date) && 'bg-ocean/5'
                     )}
                   >
                     <span
                       className={cn(
-                        'font-mono font-bold text-sm',
+                        'font-mono font-bold text-[10px] sm:text-xs',
                         dailyRate >= 70
                           ? 'text-primary'
                           : dailyRate >= 40
@@ -239,7 +242,7 @@ export const SpreadsheetTracker = ({
                 );
               })}
               <td className="px-4 py-3 text-center border-l border-border/50">
-                <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
                   Avg
                 </span>
               </td>

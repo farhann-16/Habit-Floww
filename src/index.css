@@ -10,24 +10,24 @@
     --forest-green: 160 84% 39%;
     --deep-slate: 222 47% 17%;
     --midnight-blue: 222 47% 11%;
-    
+
     /* Secondary Colors */
     --ocean-blue: 217 91% 60%;
     --warm-amber: 38 92% 50%;
     --crimson-red: 0 84% 60%;
-    
+
     /* Neutral Colors */
     --pure-white: 0 0% 100%;
     --light-gray: 210 40% 98%;
     --soft-silver: 214 32% 91%;
     --cool-gray: 215 16% 47%;
-    
+
     /* Accent Colors */
     --mint-fresh: 160 72% 52%;
     --purple-insight: 258 90% 66%;
     --sunset-orange: 24 94% 63%;
     --sky-blue: 199 89% 48%;
-    
+
     /* Semantic mappings */
     --background: var(--light-gray);
     --foreground: var(--deep-slate);
@@ -49,16 +49,17 @@
     --input: var(--soft-silver);
     --ring: var(--ocean-blue);
     --radius: 0.75rem;
-    
+
     /* Shadows */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.12);
     --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
     --shadow-success: 0 8px 20px rgba(16, 185, 129, 0.2);
-    
+
     /* Sidebar & Footer Refinement */
-    --sidebar-background: 240 10% 4%; /* Dark Obsidian */
+    --sidebar-background: 240 10% 4%;
+    /* Dark Obsidian */
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: var(--forest-green);
     --sidebar-primary-foreground: var(--pure-white);
@@ -90,8 +91,13 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading;
   }
 }
@@ -100,28 +106,37 @@
   .shadow-card {
     box-shadow: var(--shadow-md);
   }
-  
+
   .shadow-card-hover {
     box-shadow: var(--shadow-lg);
   }
-  
+
   .shadow-success {
     box-shadow: var(--shadow-success);
   }
-  
+
   .text-gradient-success {
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
-  
+
   .bg-gradient-hero {
     background: linear-gradient(135deg, hsl(var(--light-gray)) 0%, hsl(199 89% 95%) 100%);
   }
-  
+
   .bg-gradient-insight {
     background: linear-gradient(135deg, hsl(160 84% 97%) 0%, hsl(217 91% 95%) 100%);
   }
-  
+
   .bg-gradient-streak {
     background: linear-gradient(135deg, hsl(var(--forest-green)) 0%, hsl(var(--mint-fresh)) 100%);
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

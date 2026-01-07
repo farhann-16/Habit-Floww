@@ -79,7 +79,7 @@ export const WeeklyCalendar = ({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
           {weekDates.map((date, index) => {
             const stats = getStatsForDate(date);
             const today = isToday(date);
@@ -94,34 +94,34 @@ export const WeeklyCalendar = ({
                       transition={{ delay: index * 0.05 }}
                       onClick={() => onDateClick?.(date)}
                       className={cn(
-                        'flex flex-col items-center p-3 rounded-xl border-2 transition-all duration-200',
+                        'flex flex-col items-center p-1.5 sm:p-3 rounded-lg sm:rounded-xl border sm:border-2 transition-all duration-200',
                         'hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-ocean',
                         getColorByPercentage(stats.percentage),
-                        today && 'ring-2 ring-ocean ring-offset-2'
+                        today && 'ring-1 sm:ring-2 ring-ocean ring-offset-1 sm:ring-offset-2'
                       )}
                     >
-                      <span className="text-xs text-muted-foreground font-medium">
+                      <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">
                         {format(date, 'EEE')}
                       </span>
                       <span
                         className={cn(
-                          'text-2xl font-bold font-heading mt-1',
+                          'text-sm sm:text-2xl font-bold font-heading mt-0.5 sm:mt-1',
                           today ? 'text-ocean' : 'text-foreground'
                         )}
                       >
                         {format(date, 'd')}
                       </span>
-                      <div className="flex items-center gap-1 mt-2">
+                      <div className="flex items-center gap-1 mt-1 sm:mt-2">
                         <span
                           className={cn(
-                            'text-sm font-mono font-medium',
+                            'text-[9px] sm:text-sm font-mono font-bold',
                             stats.percentage >= 70
                               ? 'text-primary'
                               : stats.percentage >= 40
-                              ? 'text-amber'
-                              : stats.percentage > 0
-                              ? 'text-crimson'
-                              : 'text-muted-foreground'
+                                ? 'text-amber'
+                                : stats.percentage > 0
+                                  ? 'text-crimson'
+                                  : 'text-muted-foreground'
                           )}
                         >
                           {stats.percentage}%

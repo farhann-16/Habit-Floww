@@ -8,6 +8,7 @@ interface HabitCheckboxProps {
   loading?: boolean;
   disabled?: boolean;
   ariaLabel?: string;
+  className?: string;
 }
 
 export const HabitCheckbox = ({
@@ -16,6 +17,7 @@ export const HabitCheckbox = ({
   loading = false,
   disabled = false,
   ariaLabel = 'Toggle habit completion',
+  className,
 }: HabitCheckboxProps) => {
   return (
     <motion.button
@@ -32,7 +34,8 @@ export const HabitCheckbox = ({
           ? 'bg-primary border-primary shadow-success'
           : 'bg-card border-muted hover:border-sky',
         disabled && 'opacity-50 cursor-not-allowed',
-        loading && 'animate-pulse'
+        loading && 'animate-pulse',
+        className
       )}
       whileTap={{ scale: 0.9 }}
     >
