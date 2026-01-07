@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { AccountDropdown } from '@/components/molecules/AccountDropdown';
 import { Footer } from './Footer';
 import { cn } from '@/lib/utils';
+import { useAppStore } from '@/store/useAppStore';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ const navItems = [
 ];
 
 export const AppLayout = ({ children, onAddHabit }: AppLayoutProps) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { sidebarOpen, setSidebarOpen, toggleSidebar } = useAppStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -70,7 +71,7 @@ export const AppLayout = ({ children, onAddHabit }: AppLayoutProps) => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
+              onClick={toggleSidebar}
               className="text-sidebar-foreground hover:bg-sidebar-accent"
             >
               <Menu className="w-5 h-5" />
